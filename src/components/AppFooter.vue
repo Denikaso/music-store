@@ -14,3 +14,6 @@ export default {
       <p>Copyright &copy; {{ year }} </p>
     </footer>
 </template>
+
+<style>
+</style>

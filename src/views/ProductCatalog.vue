@@ -21,7 +21,6 @@
 
 <script>
 import apiClient from '@/service/apiService.js'
-import { ref } from 'vue' // Убираем ненужные импорты
 import ShortProductCard from '@/components/ShortProductCard.vue'
 
 export default {
@@ -63,15 +62,17 @@ export default {
       }
     },
     showFullProductInfo (product) {
-      this.selectedProduct = product
-      console.log('Выбранный продукт:', product)
-      // Добавьте здесь логику для отображения подробной информации о продукте
+      const productId = product.id
+      console.log('Выбран продукт для перехода:', product)
+      console.log('Идентификатор продукта для маршрутизации:', productId)
+      this.$router.push({ name: 'Product', params: { productId: product.id } })
     }
+
   }
 }
 </script>
 
-<style>
+<style scoped>
 .category-list {
   list-style-type: none;
 }
@@ -81,13 +82,9 @@ export default {
   position: relative;
 }
 
-.subcategory-title {
-  font-size: 1.2em;
-}
-
-.category-underline {
-  border-bottom: 1px solid black; /* Добавляем подчеркивание */
-  margin-bottom: 10px; /* Отступ подчеркивания от текста */
+.category-list .subcategory {
+  display: block; /* Располагаем каждую подкатегорию на отдельной строке */
+  margin-bottom: 10px; /* Добавляем отступ между подкатегориями */
 }
 
 .product-list {
@@ -97,6 +94,17 @@ export default {
 
 .no-products {
   margin-top: 10px;
+}
+
+.subcategory h3 {
+  font-size: 2.1em; /* Устанавливаем нужный размер шрифта (например, 1.5em) */
+  border-bottom: 4px solid #13385d; /* Добавляем подчеркивание */
+  margin-bottom: 10px; /* Отступ подчеркивания от текста */
+}
+
+p {
+  font-size: 2em; /* Устанавливаем нужный размер шрифта (например, 1.5em) */
+  color: #13385d;
 }
 
 </style>
