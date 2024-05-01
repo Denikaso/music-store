@@ -8,6 +8,9 @@ export default createStore({
     login(state) {
       state.isAuthenticated = true;
     },
+    logout(state) {
+      state.isAuthenticated = false;
+    },
   },
   getters: {
 

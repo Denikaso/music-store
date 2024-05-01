@@ -1,35 +1,47 @@
 <template>
-    <div class="profile-page">
-      <h1>Личный кабинет</h1>
-
+  <div class="profile-page">
+    <h1>Личный кабинет</h1>
+    
+    <div class="user-info-container">
       <div class="user-info">
         <p><strong>Имя:</strong> {{ customer.name }}</p>
+      </div>
+      <div class="user-info">
         <p><strong>Email:</strong> {{ customer.email }}</p>
-        <p><strong>Телефон:</strong> {{ customer.phone }}</p>
+      </div>
+      <div class="user-info">
+        <p><strong>Телефон:</strong> {{ customer.phoneNumber }}</p>
+      </div>
+      <div class="user-info">
         <p><strong>Адрес:</strong> {{ customer.address }}</p>
       </div>
-
-      <!-- Кнопка перехода к корзине -->
-      <button @click="goToCart">Перейти в корзину</button>
-
-      <button @click="logout">Выйти</button> <!-- Добавление кнопки "Выйти" -->
-
-      <!-- Место для вставки списка заказов (OrdersList) -->
-      <orders-list :customerOrders="customer.orders"></orders-list>
     </div>
-  </template>
+
+    <button class="edit-button" @click="editUser">✏️ Редактировать</button>
+
+    <orders-list :customerOrders="customer.orders"></orders-list>
+
+    <button class="cart-button" @click="goToCart">🛒 Перейти в корзину</button>
+
+    <button class="logout-button" @click="logout">Выйти</button>
+  </div>
+</template>
 
 <script>
 import apiClient from '@/service/apiService.ts'
 import VueJwtDecode from 'vue-jwt-decode';
+import OrdersList from '@/components/OrdersList.vue';
 
 export default {
+  components: {
+    OrdersList, 
+  },
   data () {
     return {
       customer: {
         name: '',
         email: '',
-        phone: '',
+        phoneNumber: '',
         address: '',
         orders: []
       },
@@ -37,8 +49,6 @@ export default {
     }
   },
   mounted () {
-    console.log('Начало выполнения метода mounted')
-
     const token = localStorage.getItem('jwtToken')
     console.log('Токен из localStorage:', token)
 
@@ -53,8 +63,6 @@ export default {
     } else {
       console.log('Токен не найден в localStorage')
     }
-
-    console.log('Завершение выполнения метода mounted')
   },
   methods: {
     async fetchUserData () {
@@ -62,6 +70,10 @@ export default {
         const response = await apiClient.get(`/Customer/GetCustomerById/${this.customerId}`)
         this.customer = response.data
         console.log('Информация о пользователе:', this.customer)
+
+        const ordersResponse = await apiClient.get(`Order/GetOrdersByCustomer/${this.customerId}`);
+        this.customer.orders = ordersResponse.data;
+        console.log('Список заказов пользователя:', this.customer.orders);
       } catch (error) {
         console.error('Ошибка при загрузке данных о пользователе:', error)
       }
@@ -74,28 +86,57 @@ export default {
       this.customer = {
         name: '',
         email: '',
-        phone: '',
+        phoneNumber: '',
         address: '',
         orders: []
       }
       // Удаление JWT токена из localStorage
       localStorage.removeItem('jwtToken')
       // Перенаправление на страницу входа
-      this.$router.push('/')
+      this.$store.commit('logout');
+      this.$router.push('/')      
     }
   }
 }
 </script>
 
-  <style scoped>
-    /* Стили для оформления страницы личного кабинета */
-    .profile-page {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+<style scoped>
+.profile-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  font-size: 1.5em;
+}
 
-    .user-info {
-      margin-bottom: 20px;
-    }
-  </style>
+.user-info-container {
+  display: flex;
+  flex-direction: column; /* Основная информация в столбик */
+  margin-bottom: 30px;
+}
+
+.user-info {
+  padding: 20px;
+  border: 2px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.edit-button {
+  background: none;
+  border: none;
+  font-size: 1em;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.cart-button {
+  margin-top: 20px;
+  background-color: #28a745;
+  color: white;
+}
+
+.logout-button {
+  margin-top: 20px;
+  background-color: red;
+  color: white;
+}
+</style>
