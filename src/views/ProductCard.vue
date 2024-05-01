@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import apiClient from '@/service/apiService.js'
+import apiClient from '@/service/apiService.ts'
 
 export default {
   props: ['productId'],

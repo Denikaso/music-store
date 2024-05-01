@@ -8,9 +8,10 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
-    "sourceMap": true,
+    "sourceMap": true, 
     "baseUrl": ".",
     "types": [
       "webpack-env"
@@ -25,15 +26,18 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "declaration": true, // Добавляем генерацию файлов деклараций
+    "emitDeclarationOnly": true // Включаем только генерацию d.ts файлов 
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "src/router/index.js"  ],
+    "tests/**/*.tsx",
+    "src/router/index.js" 
+  ],
   "exclude": [
     "node_modules"
   ]

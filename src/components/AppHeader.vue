@@ -1,40 +1,48 @@
 <script>
-import apiClient from '@/service/apiService.js'
+import apiClient from '@/service/apiService.ts'
 
 export default {
   data () {
     return {
       sections: [],
       categories: [],
-      activeSection: null
+      activeSection: null,
     }
   },
-  mounted () {
-    this.fetchSections()
-    this.fetchCategories()
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated;
+    }
+  },
+  mounted() {
+    this.fetchSections();
+    this.fetchCategories();
   },
   methods: {
-    async fetchSections () {
+    async fetchSections() {
       try {
-        const response = await apiClient.get('/Section/GetSections')
-        this.sections = response.data
+        const response = await apiClient.get('/Section/GetSections');
+        this.sections = response.data;
       } catch (error) {
-        console.error('Ошибка при получении секций:', error)
+        console.error('Ошибка при получении секций:', error);
       }
     },
-    async fetchCategories () {
+    async fetchCategories() {
       try {
-        const response = await apiClient.get('/Category/GetCategories')
-        this.categories = response.data
+        const response = await apiClient.get('/Category/GetCategories');
+        this.categories = response.data;
       } catch (error) {
-        console.error('Ошибка при получении категорий:', error)
+        console.error('Ошибка при получении категорий:', error);
       }
     },
-    showCategories (sectionId) {
-      this.activeSection = sectionId
+    showCategories(sectionId) {
+      this.activeSection = sectionId;
     },
-    navigateToCategory (categoryId) {
-      this.$router.push(`/category/${categoryId}`)
+    navigateToCategory(categoryId) {
+      this.$router.push(`/category/${categoryId}`);
+    },
+    navigateToLoginPage() {
+      this.isAuthenticated ? this.$router.push('/profile') : this.$router.push('/login');
     }
   }
 }
@@ -46,20 +54,25 @@ export default {
       <ul>
         <li v-for="section in sections" :key="section.id">
           <a href="#" @mouseover="showCategories(section.id)">
-            <i class="fas fa-home"></i>  {{ section.title }} </a>
+            <i class="fas fa-home"></i>  {{ section.title }}
+          </a>
           <ul v-if="activeSection === section.id">
             <li v-for="category in categories" :key="category.id">
-              <a v-if="category.sectionId === section.id" href="#" @click.prevent="navigateToCategory(category.id)">{{ category.title }}</a>
+              <a v-if="category.sectionId === section.id" href="#" @click.prevent="navigateToCategory(category.id)">
+                {{ category.title }}
+              </a>
             </li>
           </ul>
         </li>
       </ul>
     </nav>
-    <a href="#" class="login-button">Войти</a>
+    <a class="login-button" @click.prevent="navigateToLoginPage">
+      {{ isAuthenticated ? 'Личный кабинет' : 'Авторизация' }}
+    </a>
   </header>
 </template>
 
-<style>
+<style scoped>
 header {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень */
 }
@@ -116,6 +129,7 @@ header nav ul li:hover ul {
   right: 60px; /* Отступ справа */
   top: 20px; /* Отступ сверху */
   font-size: 1.4em; /* Устанавливаем нужный размер шрифта (например, 1.5em) */
+  cursor: pointer;
 }
 
 header nav ul li a {

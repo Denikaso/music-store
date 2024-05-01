@@ -1,14 +1,21 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
 export default createStore({
   state: {
-  },
-  getters: {
+    isAuthenticated: !!localStorage.getItem('jwtToken'),
   },
   mutations: {
+    login(state) {
+      state.isAuthenticated = true;
+    },
+  },
+  getters: {
+
   },
   actions: {
+    
   },
   modules: {
+    
   }
-})
+});

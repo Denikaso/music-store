@@ -3,6 +3,8 @@ import HomePage from '@/views/HomePage.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 import ProductCatalog from '@/views/ProductCatalog.vue'
 import ProductCard from '@/views/ProductCard.vue'
+import LoginPage from '@/views/LoginPage.vue'
+import ProfilePage from '@/views/ProfilePage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,6 +27,18 @@ const routes: Array<RouteRecordRaw> = [
     path: '/product/:productId',
     name: 'Product',
     component: ProductCard,
+    props: true
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginPage,
+    props: true
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfilePage,
     props: true
   }
 ]

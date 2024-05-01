@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import apiClient from '@/service/apiService.js'
+import apiClient from '@/service/apiService.ts'
 import ShortProductCard from '@/components/ShortProductCard.vue'
 
 export default {
