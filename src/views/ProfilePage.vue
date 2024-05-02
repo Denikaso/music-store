@@ -1,31 +1,35 @@
 <template>
   <div class="profile-page">
-    <h1>Личный кабинет</h1>
-    
-    <div class="user-info-container">
-      <div class="user-info">
-        <p><strong>Имя:</strong> {{ customer.name }}</p>
-      </div>
-      <div class="user-info">
-        <p><strong>Email:</strong> {{ customer.email }}</p>
-      </div>
-      <div class="user-info">
-        <p><strong>Телефон:</strong> {{ customer.phoneNumber }}</p>
-      </div>
-      <div class="user-info">
-        <p><strong>Адрес:</strong> {{ customer.address }}</p>
-      </div>
+    <div class="title-box">
+      <h1 class="page-title">Личный кабинет</h1>
     </div>
 
-    <button class="edit-button" @click="editUser">✏️ Редактировать</button>
+    <div class="profile-content">
+      <div class="user-info-section">
+        <h2 class="section-title">Персональные данные</h2>
+        <div class="user-info-block">
+          <div class="user-info">
+            <p><strong>Имя:</strong> {{ customer.name }}</p>
+            <p><strong>Email:</strong> {{ customer.email }}</p>
+            <p><strong>Телефон:</strong> {{ customer.phoneNumber }}</p>
+            <p><strong>Адрес:</strong> {{ customer.address }}</p>
+          </div>
+          <div class="buttons-container">
+            <button class="edit-button" @click="editUser">✏️ Редактировать</button>
+            <button class="logout-button" @click="logout">Выйти</button>
+          </div>
+        </div>
+      </div>
 
-    <orders-list :customerOrders="customer.orders"></orders-list>
-
-    <button class="cart-button" @click="goToCart">🛒 Перейти в корзину</button>
-
-    <button class="logout-button" @click="logout">Выйти</button>
+      <div class="orders-section">
+        <h2 class="section-title">Список заказов</h2>
+        <orders-list :customerOrders="customer.orders"></orders-list>
+        <button class="cart-button" @click="goToCart">🛒 Перейти в корзину</button>
+      </div>
+    </div>
   </div>
 </template>
+
 
 <script>
 import apiClient from '@/service/apiService.ts'
@@ -106,37 +110,81 @@ export default {
   margin: 0 auto;
   padding: 40px;
   font-size: 1.5em;
+  background-image: linear-gradient(to bottom right, #9fd9fe, #ffd5c5); /* Градиентный фон */
+  border-radius: 10px; /* Закругленные углы */
 }
 
-.user-info-container {
-  display: flex;
-  flex-direction: column; /* Основная информация в столбик */
-  margin-bottom: 30px;
-}
-
-.user-info {
-  padding: 20px;
-  border: 2px solid #ddd;
+.page-title { 
+  font-size: 1.5em;
   margin-bottom: 20px;
 }
 
-.edit-button {
-  background: none;
+.profile-content {
+  display: flex;
+}
+
+.title-box {
+  background-color: #f9f9f9; /* Цвет прямоугольника вокруг заголовка */
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.user-info-section {
+  flex: 1;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.orders-section {
+  margin-bottom: 20px; 
+}
+
+.user-info-block {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.user-info {
+  font-size: 1.1em;
+}
+
+.buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.edit-button, .cart-button, .logout-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
   border: none;
-  font-size: 1em;
-  color: #007bff;
   cursor: pointer;
+  border-radius: 5px;
+}
+
+.edit-button:hover, .cart-button:hover, .logout-button:hover {
+  opacity: 0.8;
 }
 
 .cart-button {
-  margin-top: 20px;
   background-color: #28a745;
-  color: white;
 }
 
 .logout-button {
-  margin-top: 20px;
-  background-color: red;
-  color: white;
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+
+.section-title {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #333;
+  text-decoration: underline;
 }
 </style>

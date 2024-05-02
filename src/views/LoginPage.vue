@@ -17,6 +17,10 @@
     <div class="registration-section">
       <p>Еще нет учетной записи? <button @click="redirectToRegistration" class="registration-button">Регистрация</button></p>
     </div>
+
+    <div v-if="error" class="error-message">
+      {{ error }}
+    </div>
   </div>
 </template>
 
@@ -27,7 +31,8 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      error: '' 
     }
   },
   methods: {
@@ -51,11 +56,21 @@ export default {
           // Перенаправляем пользователя на защищенную страницу
           this.$router.push('/')
           
-        } else {
-          console.error('Ошибка авторизации')
+
+        }else {
+          throw new Error('Ошибка авторизации');
         }
       } catch (error) {
         console.error('Произошла ошибка:', error)
+
+        if (error.response && error.response.status === 400 && error.response.data.includes('Неверный пароль')) {
+          this.error = 'Неверный пароль. Пожалуйста, проверьте введенные данные.';
+        } else if (error.response && error.response.status === 400 && error.response.data.includes('Пользователь с таким email не найден')) {
+          this.error = 'Пользователь с таким email не найден. Пожалуйста, проверьте введенные данные.';
+        }
+        else {
+          this.error = 'Произошла ошибка при попытке авторизации. Пожалуйста, попробуйте позже.';
+        }        
       }
     },
     redirectToRegistration () {
@@ -128,5 +143,12 @@ export default {
     border-radius: 5px;
     padding: 8px 16px;
     cursor: pointer;
+  }
+
+  .error-message {
+    margin-top: 10px;
+    color: red; /* Устанавливаем красный цвет для текста ошибки */
+    font-size: 14px;
+    text-align: center;
   }
 </style>

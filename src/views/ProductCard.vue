@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card" v-if="localProduct.id">
+  <div class="product-card" v-if="localProduct.id >= 0">
     <div class="product-image">
       <img :src="localProduct.picture" :alt="localProduct.title">
     </div>
@@ -50,8 +50,12 @@ export default {
       quantity: 1
     }
   },
-  mounted () {
-    this.fetchProductInfo(this.productId)
+  mounted () {    
+    if (!isNaN(this.productId) && this.productId >= 0) {
+      this.fetchProductInfo(this.productId)
+    } else {
+      console.warn('Некорректный ID продукта. Отображение продукта может быть некорректным.')
+    }
   },
   methods: {
     async fetchProductInfo (productId) {
