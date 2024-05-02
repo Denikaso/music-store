@@ -15,7 +15,7 @@
             <p><strong>Адрес:</strong> {{ customer.address }}</p>
           </div>
           <div class="buttons-container">
-            <button class="edit-button" @click="editUser">✏️ Редактировать</button>
+            <button class="edit-button" @click="showEditForm">✏️ Редактировать</button>
             <button class="logout-button" @click="logout">Выйти</button>
           </div>
         </div>
@@ -26,6 +26,9 @@
         <orders-list :customerOrders="customer.orders"></orders-list>
         <button class="cart-button" @click="goToCart">🛒 Перейти в корзину</button>
       </div>
+
+      <EditCustomerForm ref="editCustomerForm" v-if="showEdit" @closeEditForm="showEdit = false" @dataUpdated="fetchUserData"></EditCustomerForm>
+
     </div>
   </div>
 </template>
@@ -35,10 +38,12 @@
 import apiClient from '@/service/apiService.ts'
 import VueJwtDecode from 'vue-jwt-decode';
 import OrdersList from '@/components/OrdersList.vue';
+import EditCustomerForm from '@/components/EditCustomerForm.vue';
 
 export default {
   components: {
-    OrdersList, 
+    OrdersList,
+    EditCustomerForm
   },
   data () {
     return {
@@ -49,7 +54,8 @@ export default {
         address: '',
         orders: []
       },
-      customerId: null
+      customerId: null,
+      showEdit: false
     }
   },
   mounted () {
@@ -99,7 +105,13 @@ export default {
       // Перенаправление на страницу входа
       this.$store.commit('logout');
       this.$router.push('/')      
-    }
+    },
+    showEditForm() {
+      this.showEdit = true;
+      this.$nextTick(() => {
+          this.$refs.editCustomerForm.editedUser = { ...this.customer, id: this.customer.id };
+      });
+    },
   }
 }
 </script>
