@@ -1,24 +1,46 @@
-# music-store
+# MusicStore-Frontend
 
-## Project setup
-```
-npm install
-```
+Фронтенд на Vue.js для сервиса - музыкального магазина, работа над которым велась в рамках учебной практики.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Обзор
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Этот репозиторий содержит фронтенд музыкального магазина, разработанный с помощью Vue.js. 
+Он взаимодействует с REST API, предоставляемым бэкендом (репозиторий `MusicStoreAPI`), чтобы отображать информацию о товарах,  позволять пользователям просматривать каталог, личный кабинет, список заказов.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Технологии
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+* **Vue.js:**  Фреймворк JavaScript для создания динамических веб-интерфейсов
+* **Vuex:**  Библиотека для управления состоянием приложения
+* **Vue Router:**  Библиотека для маршрутизации в Vue.js приложениях
+* **Axios:**  Библиотека для выполнения HTTP запросов
+
+## Как использовать
+
+**Установка и запуск:**
+
+1. **Установите Node.js и npm:**  [Добавьте ссылки на инструкции по установке Node.js и npm].
+2. **Клонируйте репозиторий:**  `git clone [URL репозитория]`
+3. **Перейдите в корневую директорию проекта:**  `cd MusicStore-Frontend`
+4. **Установите зависимости:**  `npm install`
+5. **Запустите приложение:**  `npm run serve`
+
+**Настройка:**
+
+1. **Настройте API URL:**  В файле `.env` измените переменную `VUE_APP_API_URL`  на URL вашего бекенд API (например, `http://localhost:5000`).
+
+##  Примеры
+
+**Карточка товара**
+
+![Карточка товара](https://images2.imgbox.com/bd/c0/48yeOu40_o.png?download=true)
+
+**Личный кабинет**
+
+![Личный кабинет](https://images2.imgbox.com/5f/67/ealZP6ap_o.png?download=true)
+
+##  Связанные репозитории
+
+*  **[Модели и CRUD классы сущностей](https://github.com/Denikaso/MusicStore)**
+*  **[Контроллеры для моделей](https://github.com/Denikaso/MusicStoreAPI)**
+
+
